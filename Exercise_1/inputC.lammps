@@ -3,11 +3,11 @@
 units metal
 atom_style molecular
 boundary p p p
-pair_style eam
-read_data cnt_cu.data
-pair_coeff * * Cu_u3.eam
+pair_style airebo 2.5 1 1
+read_data cnt_atom.data
+pair_coeff * * CH.airebo C
 
-change_box all x final -71.4286 71.4286 y final -71.4286 71.4286 z final -142.8572 142.8572
+change_box all x final -40 40 y final -40 40 z final -80 80
 
 group carbon_atoms type 1
 variable carbon_xcm equal -1*xcm(carbon_atoms,x)
@@ -30,10 +30,10 @@ group carbon_mid region rmid
 
 fix mynve all nve
 compute Tmid carbon_mid temp
-fix myber carbon_mid temp/berendsen 1 200 0.1
+fix myber carbon_mid temp/berendsen 1 1000 0.1
 fix_modify myber temp Tmid
 
-dump mydmp all atom 1000 dump.lammpstrj
+dump mydmp all atom 1000 dumpC.lammpstrj
 
 thermo 100
 thermo_modify temp Tmid
