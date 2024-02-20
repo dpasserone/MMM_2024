@@ -4,7 +4,7 @@ units metal
 atom_style molecular
 boundary p p p
 pair_style eam
-read_data cnt_Cu.data
+read_data cnt_cu.data
 pair_coeff * * Cu_u3.eam
 
 change_box all x final -71.4286 71.4286 y final -71.4286 71.4286 z final -142.8572 142.8572
