@@ -48,8 +48,8 @@ def coordinates(m,dx,dy):
     x=[]
     y=[]
     for i in m:
-       x.append(i[0]*dx+i[2]*dx/2)
-       y.append(i[1]*dy-i[2]*dy/2)
+        x.append(i[0]*dx+i[2]*dx/2)
+        y.append(i[1]*dy-i[2]*dy/2)
     return x,y
 
 #### find the 1st neighboring molecules to a given one
