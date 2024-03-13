@@ -1,0 +1,14 @@
+  &MD
+    ENSEMBLE NVT
+    STEPS ${NSTEPS}
+    TIMESTEP 1.0
+    TEMPERATURE ${TEMP}
+    &THERMOSTAT
+       REGION MOLECULE
+       TYPE CSVR
+       &CSVR
+         TIMECON ${CSVR_TIMECON}
+       &END
+    &END
+  &END MD
+ 

@@ -1,0 +1,19 @@
+  &MD   
+    ENSEMBLE LANGEVIN
+    STEPS ${NSTEPS}
+    TIMESTEP ${TIMESTEP}
+    TEMPERATURE ${TEMP}
+    &LANGEVIN 
+      GAMMA ${LANGEVIN_GAMMA}
+      NOISY_GAMMA 8.E-5
+    &END LANGEVIN
+    &PRINT 
+      &PROGRAM_RUN_INFO
+        ADD_LAST SYMBOLIC
+        &EACH
+          MD 1000
+        &END
+      &END
+    &END PRINT
+  &END MD
+ 
