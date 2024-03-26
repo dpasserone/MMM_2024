@@ -82,7 +82,7 @@ def show_orbitals(molname,pk,nhomo,nlumo,isosurf=0.02,nfirstview=0,nlastview=500
         myarray.append(views[a])
     caption =[]
     for l in captions:
-        caption.append(widgets.Text(l))
+        caption.append(widgets.HTML(l))
     combined_w2 = []
     for i in range(len(caption)):
         combined_w2.append(widgets.HBox([myarray[i],caption[i]]))
