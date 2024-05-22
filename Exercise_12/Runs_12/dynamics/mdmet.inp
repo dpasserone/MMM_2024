@@ -1,0 +1,91 @@
+&FORCE_EVAL
+  METHOD Quickstep
+  &DFT
+    &MGRID
+      CUTOFF 500
+    &END MGRID
+    &QS
+      METHOD DFTB ! use density functional tight binding methos to calculate energy and forces
+      &DFTB
+        SELF_CONSISTENT    F ! use of self-consistent method
+        DISPERSION         F ! dispersion correction
+        ORTHOGONAL_BASIS   F ! Assume orthogonal basis set 
+        DO_EWALD           F ! Use Ewald type method instead of direct sum for Coulomb interaction
+        ! Specify file that contains the names of Slater-Koster tables
+        ! distance dependent interaction parameter file
+        &PARAMETER
+          PARAM_FILE_PATH  ./dftb_params/scc
+          PARAM_FILE_NAME  scc_parameter
+          UFF_FORCE_FIELD  uff_table  ! Name of file with UFF parameters that will be used for the dispersion correction
+        &END PARAMETER
+      &END DFTB
+    &END QS
+    &SCF
+      SCF_GUESS ATOMIC
+      EPS_SCF 3.0E-7
+      MAX_SCF 2000
+      ! The orbital transformation (OT) method is a direct minimisation scheme that allows for efficient wave function optimisation
+      &OT
+        ! Type of preconditioner to be used with all minimization schemes.
+        ! Based on H-eS cholesky inversion, efficiencient and cheaper to construct. Recommended for large systems.
+        PRECONDITIONER  FULL_SINGLE_INVERSE
+        MINIMIZER  CG
+      &END
+    &END SCF
+    &PRINT
+      &MOMENTS
+       PERIODIC FALSE
+       &EACH
+         MD 1
+       &END
+       MAX_MOMENT 1
+       FILENAME =dipolemet.traj
+      &END MOMENTS
+     &END
+
+ &END DFT
+  &SUBSYS
+    &CELL
+      ABC [angstrom] 7 7 7 
+      PERIODIC NONE
+    &END
+! geometry file in xyz format
+    &TOPOLOGY
+     COORD_FILE_NAME ./optmet.xyz
+     COORDINATE xyz
+    &END
+  &END SUBSYS
+&END FORCE_EVAL
+&GLOBAL
+  PRINT_LEVEL LOW
+  PROJECT MET
+  RUN_TYPE MD
+  WALLTIME 86000
+  EXTENDED_FFT_LENGTHS
+&END GLOBAL
+&MOTION
+ &MD
+   ENSEMBLE NVE ! microcanonical ensemble
+   TIMESTEP 0.5
+   STEPS  5000
+   TEMPERATURE 1200
+   &PRINT
+     &ENERGY
+        &EACH
+           MD 20
+        &END
+     &END ENERGY
+     &PROGRAM_RUN_INFO
+        &EACH
+           MD 20
+        &END
+     &END PROGRAM_RUN_INFO
+   &END PRINT
+ &END MD
+&END MOTION
+
+! external section : specifies an external input file where to take positions
+#&EXT_RESTART
+! name of the restart file to be read
+# RESTART_FILE_NAME MET-1.restart
+#&END
