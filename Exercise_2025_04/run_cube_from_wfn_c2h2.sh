@@ -10,7 +10,7 @@ mkdir cubes
   --wfn_file $DIR/aiida-RESTART.wfn \
   --output_dir ./cubes/ \
   --n_homo 5 \
-  --n_lumo 3 \
+  --n_lumo 5 \
   --dx 0.2 \
   --eval_cutoff 14.0 \
 
